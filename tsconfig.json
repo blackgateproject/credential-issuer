@@ -1,12 +1,12 @@
 {
+  "extends": "fastify-tsconfig",
   "compilerOptions": {
-    "preserveConstEnums": true,
-    "strict": true,
-    "target": "esnext",
-    "module": "esnext",
-    "rootDir": "./",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "downlevelIteration": true
-  }
+    "outDir": "dist",
+    "sourceMap": true,
+    "moduleResolution": "NodeNext",
+    "module": "NodeNext",
+    "target": "ES2022",
+    "esModuleInterop": true
+  },
+  "include": ["src/**/*.ts"]
 }
