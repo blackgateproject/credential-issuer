@@ -136,6 +136,18 @@ export const localAgent = createAgent<
 //   ],
 // });
 export default fp(async (fastify) => {
+  if (fastify.hasDecorator("veramoAgent")) {
+    return; // Prevent duplicate registration
+  }
   fastify.decorate("veramoAgent", localAgent);
 });
 
+declare module "fastify" {
+  export interface FastifyInstance {
+    veramoAgent: IResolver &
+      ICredentialIssuer &
+      IDIDManager &
+      IKeyManager &
+      ICredentialIssuerLD;
+  }
+}
