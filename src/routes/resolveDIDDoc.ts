@@ -37,7 +37,8 @@ const route: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
             }
         } catch (error) {
             // Handle errors during DID resolution
-            return reply.status(500).send({ error: "Error resolving DID" });
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            return reply.status(500).send({ message: "Error resolving DID", error: errorMessage });
         }
     });
 };
