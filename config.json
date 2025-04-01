@@ -2,5 +2,7 @@
   "port": 8001,
   "host": "0.0.0.0",
   "pretty-logs": true,
-  "close-grace-delay": 1000
+  "close-grace-delay": 1000,
+  "log-level": "trace",
+  "logging-module": "pino-pretty"
 }

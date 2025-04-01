@@ -65,3 +65,6 @@ test/types/index.js
 dist
 
 .env
+
+*.sqlite
+*.sqlite.journal
