@@ -33,9 +33,10 @@ const route: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
     }
 
     // Extract formData and networkInfo from request body
-    const { formData, networkInfo } = request.body as {
+    const { formData, networkInfo, ZKP } = request.body as {
       formData: any;
       networkInfo: any;
+      ZKP: any;
     };
 
     // Validate if DID is provided
@@ -56,6 +57,10 @@ const route: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
       // Include networkInfo as is (without filtering)
       if (networkInfo) {
         credentialSubject.networkInfo = networkInfo;
+      }
+
+      if (ZKP) {
+        credentialSubject.ZKP = ZKP;
       }
 
       // Issue the DID document using Veramo agent

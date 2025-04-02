@@ -48,7 +48,9 @@ const route: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
         return result;
       } else {
         // Return 404 if verifiableCredential document not found
-        return reply.status(404).send({ error: "verifiableCredential Document not found" });
+        return reply
+          .status(404)
+          .send({ error: "verifiableCredential Document not found" });
       }
     } catch (error) {
       // Handle errors during verifiableCredential resolution
@@ -56,7 +58,10 @@ const route: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
         error instanceof Error ? error.message : String(error);
       return reply
         .status(500)
-        .send({ message: "Error resolving verifiableCredential", error: errorMessage });
+        .send({
+          message: "Error resolving verifiableCredential",
+          error: errorMessage,
+        });
     }
   });
 };
