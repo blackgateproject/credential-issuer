@@ -135,12 +135,17 @@ export const localAgent = createAgent<
 //     }),
 //   ],
 // });
-export default fp(async (fastify) => {
-  if (fastify.hasDecorator("veramoAgent")) {
-    return; // Prevent duplicate registration
+export default fp(
+  async (fastify) => {
+    if (fastify.hasDecorator("veramoAgent")) {
+      return; // Prevent duplicate registration
+    }
+    fastify.decorate("veramoAgent", localAgent);
+  },
+  {
+    name: "veramoAgent", // Add plugin name for dependency tracking
   }
-  fastify.decorate("veramoAgent", localAgent);
-});
+);
 
 declare module "fastify" {
   export interface FastifyInstance {

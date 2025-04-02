@@ -9,11 +9,11 @@
   },
   "scripts": {
     "test": "npm run build:ts && tsc -p test/tsconfig.json && FASTIFY_AUTOLOAD_TYPESCRIPT=1 node --test --experimental-test-coverage --loader ts-node/esm test/**/*.ts",
-    "start": "npm run build:ts && fastify start -l trace dist/app.js",
+    "start": "npm run build:ts && fastify start dist/app.js",
     "build:ts": "tsc",
     "watch:ts": "tsc -w",
-    "dev": "npm run build:ts && concurrently -k -p \"[{name}]\" -n \"TypeScript,App\" -c \"yellow.bold,cyan.bold\" \"npm:watch:ts\" \"npm:dev:start\"",
-    "dev:start": "fastify start --ignore-watch=.ts$ -w -l trace -P dist/app.js"
+    "dev": "npm run build:ts && concurrently -k -p \"[{name}]\" -n \"TypeScript,Server\" -c \"yellow.bold,cyan.bold\" \"npm:watch:ts\" \"npm:dev:start\"",
+    "dev:start": "fastify start --ignore-watch=.ts$ -w --options -P dist/app.js"
   },
   "dependencies": {
     "@fastify/autoload": "^6.0.0",
@@ -122,6 +122,7 @@
   "devDependencies": {
     "@types/node": "^22.1.0",
     "@types/sqlite3": "^3.1.11",
+    "@types/uuid": "^10.0.0",
     "c8": "^10.1.2",
     "concurrently": "^9.0.0",
     "fastify-tsconfig": "^3.0.0",
