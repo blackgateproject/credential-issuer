@@ -69,10 +69,10 @@ const route: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
         credential: credentialPayload,
         proofFormat: "jwt" as ICreateVerifiableCredentialArgs["proofFormat"],
       };
-      const verifiableCredential = await agent.createVerifiableCredential(args);
+      const credential = await agent.createVerifiableCredential(args);
 
       // Return the VC
-      return { verifiableCredential };
+      return { credential };
     } catch (error) {
       // Handle errors during DID resolution
       const errorMessage =
