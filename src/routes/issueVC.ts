@@ -61,7 +61,7 @@ const route: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
       // Issue the DID document using Veramo agent
       const credentialPayload: CredentialPayload = {
         // "@context": [],
-        issuer: formData.did,
+        issuer: fastify.fogNodeIdentifier.did,
         credentialSubject,
       };
 
