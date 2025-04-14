@@ -5,14 +5,16 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
-    environment:
-      NODE_ENV: production
-      BLOCKCHAIN_RPC_PROVIDER: ${BLOCKCHAIN_RPC_PROVIDER}
-      BLOCKCHAIN_CHAIN_ID: ${BLOCKCHAIN_CHAIN_ID}
-      BLOCKCHAIN_DID_REGISTRY_ADDR: ${BLOCKCHAIN_DID_REGISTRY_ADDR}
-      BLOCKCHAIN_MERKLE_ADDR: ${BLOCKCHAIN_MERKLE_ADDR}
-      FASTIFY_CONFIG: ${FASTIFY_CONFIG}
-      # VERAMO_SECRET_KEY will be generated inside the container
+    # environment:
+    #   NODE_ENV: production
+    #   BLOCKCHAIN_RPC_PROVIDER: ${BLOCKCHAIN_RPC_PROVIDER}
+    #   BLOCKCHAIN_CHAIN_ID: ${BLOCKCHAIN_CHAIN_ID}
+    #   BLOCKCHAIN_DID_REGISTRY_ADDR: ${BLOCKCHAIN_DID_REGISTRY_ADDR}
+    #   BLOCKCHAIN_MERKLE_ADDR: ${BLOCKCHAIN_MERKLE_ADDR}
+    #   FASTIFY_CONFIG: ${FASTIFY_CONFIG}
+    #   # VERAMO_SECRET_KEY will be generated inside the container
+    env_file:
+      - .env
     volumes:
       # Mount specific directories/files instead of the entire project
       - ./src:/app/src
