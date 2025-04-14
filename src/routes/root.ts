@@ -19,8 +19,8 @@ const root: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
         BLOCKCHAIN_CHAIN_ID: process.env.BLOCKCHAIN_CHAIN_ID,
         BLOCKCHAIN_DID_REGISTRY_ADDR: process.env.BLOCKCHAIN_DID_REGISTRY_ADDR,
         VERAMO_SECRET_KEY: process.env.VERAMO_SECRET_KEY
-          ? "[Set]"
-          : "[Missing]",
+          ? "[Set in .env]"
+          : "[Missing from .env]",
       },
       "fogNode-Creds": fogNodeCreds,
     };

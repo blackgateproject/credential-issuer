@@ -7,8 +7,8 @@ if [ ! -f .env ]; then
   cp .env.example .env
 fi
 
-# Check if VERAMO_SECRET_KEY is already set in the .env file
-if grep -q '^VERAMO_SECRET_KEY=' .env; then
+# Check if VERAMO_SECRET_KEY is already set and non-empty in the .env file
+if grep -q '^VERAMO_SECRET_KEY=[^[:space:]]' .env; then
   echo "VERAMO_SECRET_KEY is already set in the .env file. Skipping key generation."
 else
   # Generate a new Veramo secret key with improved parsing
