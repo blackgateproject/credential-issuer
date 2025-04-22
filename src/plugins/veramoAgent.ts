@@ -20,7 +20,7 @@ import { getResolver as ethrDidResolver } from "ethr-did-resolver";
 // dotenv.config();
 
 const blockchainChainID = process.env.BLOCKCHAIN_CHAIN_ID || null;
-const blockchainHost = process.env.BLOCKCHAIN_RPC_PROVIDER || "N/A";
+const blockchainHost = process.env.BLOCKCHAIN_RPC_URL || "N/A";
 const didRegistryAddress = process.env.BLOCKCHAIN_DID_REGISTRY_ADDR || "N/A";
 
 // export const MY_CUSTOM_CONTEXT_URI = "https://example.com/custom/context";
@@ -31,7 +31,7 @@ const didRegistryAddress = process.env.BLOCKCHAIN_DID_REGISTRY_ADDR || "N/A";
 //     nothing: "https://example.com/custom/context",
 //   },
 // };
-// console.log("Loaded BLOCKCHAIN_RPC_PROVIDER:", blockchainHost);
+// console.log("Loaded BLOCKCHAIN_RPC_URL:", blockchainHost);
 // console.log("Loaded CHAIN_ID:", blockchainChainID);
 // console.log("Loaded ContractAddr: ", didRegistryAddress);
 // fastify.log.info("[VERAMO] Agent Ready!")
@@ -68,7 +68,7 @@ export const localAgent = createAgent<
               name: "blackgate",
               // [NOTE::] Use this for external zksync
               // provider: new JsonRpcProvider(
-              //   BLOCKCHAIN_RPC_PROVIDER, blockchainChainID),
+              //   BLOCKCHAIN_RPC_URL, blockchainChainID),
               // registry: ContractABI.entries[0].address,
               // // [NOTE::] Use this for dokcerized zksync
               provider: new JsonRpcProvider(
