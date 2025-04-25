@@ -19,7 +19,7 @@ COPY . .
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-EXPOSE 3000
+EXPOSE 5000
 
 # Use the entrypoint script that will generate the VERAMO_SECRET_KEY
 ENTRYPOINT ["docker-entrypoint.sh"]
