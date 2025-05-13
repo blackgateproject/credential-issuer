@@ -1,6 +1,13 @@
 import fp from "fastify-plugin";
 
-import { createAgent, IDIDManager, IKeyManager, IResolver } from "@veramo/core";
+import {
+  createAgent,
+  ICreateVerifiablePresentationArgs,
+  IDIDManager,
+  IKeyManager,
+  IResolver,
+  IVerifyPresentationArgs,
+} from "@veramo/core";
 import { ICredentialIssuerLD } from "@veramo/credential-ld";
 import { CredentialPlugin, ICredentialIssuer } from "@veramo/credential-w3c";
 import { DIDManager, MemoryDIDStore } from "@veramo/did-manager";
@@ -41,7 +48,9 @@ export const localAgent = createAgent<
     ICredentialIssuer &
     IDIDManager &
     IKeyManager &
-    ICredentialIssuerLD
+    ICredentialIssuerLD &
+    ICreateVerifiablePresentationArgs &
+    IVerifyPresentationArgs
 >({
   plugins: [
     new KeyManager({
@@ -104,13 +113,14 @@ export const localAgent = createAgent<
       }),
     }),
     new CredentialPlugin(),
-    // new CredentialIssuerLD({
-    //   contextMaps: [LdDefaultContexts, extraContexts],
-    //   suites: [
-    //     new VeramoEd25519Signature2018(),
-    //     new VeramoEcdsaSecp256k1RecoverySignature2020(), //needed for did:ethr
-    //   ],
-    // }),
+    // new CredentialIssuerLD()
+    //       new CredentialIssuerLD({
+    //         contextMaps: [LdDefaultContexts],
+    //         suites: [
+    //           new VeramoEd25519Signature2018(),
+    //           new VeramoEcdsaSecp256k1RecoverySignature2020(), //needed for did:ethr
+    //         ],
+    //       }),
   ],
 });
 
@@ -140,7 +150,11 @@ export default fp(
     if (fastify.hasDecorator("veramoAgent")) {
       return; // Prevent duplicate registration
     }
-    fastify.decorate("veramoAgent", localAgent);
+    fastify.decorate("veramoAgent", {
+      getter() {
+        return localAgent;
+      },
+    });
   },
   {
     name: "veramoAgent", // Add plugin name for dependency tracking
