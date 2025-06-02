@@ -5,8 +5,8 @@ import {
   IKeyManager,
   IResolver,
   IVerifyPresentationArgs,
-  VerifiablePresentation,
   TAgent,
+  VerifiablePresentation,
 } from "@veramo/core";
 import { ICredentialIssuerLD } from "@veramo/credential-ld";
 import { FastifyPluginAsync } from "fastify";
@@ -53,12 +53,16 @@ const route: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
 
       // Resolve the verifiablePresentation document using Veramo agent
       fastify.log.warn(
-        `Verifying presentation with nonce: ${presentation.nonce} and domain: ${presentation.verifier?.[0]}`,
+        `Verifying presentation with nonce: ${presentation.nonce} and domain: ${presentation.verifier?.[0]}`
       );
       const result = await agent.verifyPresentation({
         presentation: presentation,
         challenge: presentation.nonce,
-        domain: presentation.verifier[0],
+        domain:
+          Array.isArray(presentation.verifier) &&
+          presentation.verifier.length > 0
+            ? presentation.verifier[0]
+            : undefined,
       });
 
       // const vpVerificationResult = await agent.verifyPresentation(
