@@ -16,10 +16,11 @@
     "dev:start": "fastify start --ignore-watch=.ts$ -w --options -P dist/app.js"
   },
   "dependencies": {
-    "@fastify/autoload": "^6.0.0",
+    "@fastify/autoload": "^6.3.0",
     "@fastify/sensible": "^6.0.0",
     "@veramo/cli": "^6.0.0",
     "@veramo/core": "^6.0.0",
+    "@veramo/credential-ld": "^6.0.0",
     "@veramo/credential-w3c": "^6.0.0",
     "@veramo/data-store": "^6.0.0",
     "@veramo/did-manager": "^6.0.0",
@@ -133,6 +134,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/blackgateproject/credential-issuer.git"
+  },
+  "overrides": {
+    "jsonld": "npm:@digitalcredentials/jsonld@^6.0.0"
   },
   "keywords": [],
   "author": "",
