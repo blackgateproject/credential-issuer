@@ -5,9 +5,10 @@ import {
   IKeyManager,
   IResolver,
   IVerifyPresentationArgs,
+  VerifiablePresentation,
   TAgent,
 } from "@veramo/core";
-import { ICredentialIssuerLD,  } from "@veramo/credential-ld";
+import { ICredentialIssuerLD } from "@veramo/credential-ld";
 import { FastifyPluginAsync } from "fastify";
 /**
  * Route plugin for Verifying verifiablePresentation
@@ -34,9 +35,11 @@ const route: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
     }
 
     // Extract verifiablePresentation from request body
-    const { presentation } = request.body as {
-      presentation: any;
-    };
+    // fastify.log.warn(`Request body: ${JSON.stringify(request.body)}`);
+    const presentation = request.body as VerifiablePresentation;
+    // const { presentation } = request.body as {
+    //   presentation: any;
+    // };
 
     // // Validate if verifiablePresentation is provided
     // if (!presentation) {
@@ -44,11 +47,42 @@ const route: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
     // }
 
     try {
+      fastify.log.warn(
+        `Presentation received for verification: ${presentation}`
+      );
+
       // Resolve the verifiablePresentation document using Veramo agent
-      const result = await agent.verifyPresentation({ presentation });
+      fastify.log.warn(
+        `Verifying presentation with nonce: ${presentation.nonce} and domain: ${presentation.verifier?.[0]}`,
+      );
+      const result = await agent.verifyPresentation({
+        presentation: presentation,
+        challenge: presentation.nonce,
+        domain: presentation.verifier[0],
+      });
+
+      // const vpVerificationResult = await agent.verifyPresentation(
+      //   presentation.proof.jwt,
+      //   {
+      //     resolve: (didUrl) => agent.resolveDid({ didUrl }),
+      //   }
+      // );
+
+      // // 5. Verify the VC inside the VP
+      // const vcVerificationResult = await agent.verifyCredentialLD({
+      //   credential: vpVerificationResult.payload.vp.verifiableCredential[0],
+      //   fetchRemoteContexts: true,
+      // });
+
+      // console.log("VC valid", vcVerificationResult);
 
       // Return the verifiablePresentation document if found
       if (result) {
+        fastify.log.debug(
+          `VerifiablePresentation verification result: ${JSON.stringify(
+            result
+          )}`
+        );
         return result;
       } else {
         // Return 404 if verifiablePresentation document not found

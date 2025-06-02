@@ -8,7 +8,6 @@ import {
   IResolver,
   IVerifyPresentationArgs,
 } from "@veramo/core";
-import { ICredentialIssuerLD } from "@veramo/credential-ld";
 import { CredentialPlugin, ICredentialIssuer } from "@veramo/credential-w3c";
 import { DIDManager, MemoryDIDStore } from "@veramo/did-manager";
 import { EthrDIDProvider } from "@veramo/did-provider-ethr";
@@ -22,6 +21,7 @@ import { KeyManagementSystem } from "@veramo/kms-local";
 import { Resolver } from "did-resolver";
 import { JsonRpcProvider } from "ethers";
 import { getResolver as ethrDidResolver } from "ethr-did-resolver";
+// import { CredentialIssuerLD, LdDefaultContexts, VeramoEcdsaSecp256k1RecoverySignature2020, VeramoEd25519Signature2020 } from "@veramo/credential-ld";
 
 // import dotenv from "dotenv";
 // dotenv.config();
@@ -48,7 +48,6 @@ export const localAgent = createAgent<
     ICredentialIssuer &
     IDIDManager &
     IKeyManager &
-    ICredentialIssuerLD &
     ICreateVerifiablePresentationArgs &
     IVerifyPresentationArgs
 >({
@@ -113,14 +112,13 @@ export const localAgent = createAgent<
       }),
     }),
     new CredentialPlugin(),
-    // new CredentialIssuerLD()
-    //       new CredentialIssuerLD({
-    //         contextMaps: [LdDefaultContexts],
-    //         suites: [
-    //           new VeramoEd25519Signature2018(),
-    //           new VeramoEcdsaSecp256k1RecoverySignature2020(), //needed for did:ethr
-    //         ],
-    //       }),
+    //   new CredentialIssuerLD({
+    //     contextMaps: [LdDefaultContexts],
+    //     suites: [
+    //       new VeramoEd25519Signature2020(),
+    //       new VeramoEcdsaSecp256k1RecoverySignature2020(), //needed for did:ethr
+    //     ],
+    //   }),
   ],
 });
 
@@ -163,10 +161,6 @@ export default fp(
 
 declare module "fastify" {
   export interface FastifyInstance {
-    veramoAgent: IResolver &
-      ICredentialIssuer &
-      IDIDManager &
-      IKeyManager &
-      ICredentialIssuerLD;
+    veramoAgent: IResolver & ICredentialIssuer & IDIDManager & IKeyManager;
   }
 }
