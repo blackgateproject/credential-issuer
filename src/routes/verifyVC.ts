@@ -1,11 +1,12 @@
 import {
   ICredentialIssuer,
+  ICredentialPlugin,
   IDIDManager,
   IKeyManager,
   IResolver,
   TAgent,
+  VerifiableCredential,
 } from "@veramo/core";
-import { ICredentialIssuerLD } from "@veramo/credential-ld";
 import { FastifyPluginAsync } from "fastify";
 /**
  * Route plugin for Verifying verifiableCredentials
@@ -19,9 +20,10 @@ const route: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
     const agent = fastify.veramoAgent as unknown as TAgent<
       IResolver &
         ICredentialIssuer &
+        ICredentialPlugin &
         IDIDManager &
-        IKeyManager &
-        ICredentialIssuerLD
+        IKeyManager
+      // ICredentialIssuerLD
     >;
 
     // Check if agent is properly initialized
@@ -30,18 +32,19 @@ const route: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
     }
 
     // Extract verifiableCredential from request body
-    const { credential } = request.body as {
-      credential: any;
-    };
+    const { credential } = request.body as VerifiableCredential
 
     // Validate if verifiableCredential is provided
     if (!credential) {
-      return reply.status(400).send({ error: "credential is required" });
+      return reply.status(400).send({ error: "credential is required." });
     }
 
     try {
       // Resolve the verifiableCredential document using Veramo agent
-      const result = await agent.verifyCredential({ credential });
+      fastify.log.warn(
+        `Credential received for verification: ${JSON.stringify(credential[0])}`
+      );
+      const result = await agent.verifyCredential({ credential: credential[0] });
 
       // Return the verifiableCredential document if found
       if (result) {
@@ -56,12 +59,10 @@ const route: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
       // Handle errors during verifiableCredential resolution
       const errorMessage =
         error instanceof Error ? error.message : String(error);
-      return reply
-        .status(500)
-        .send({
-          message: "Error resolving verifiableCredential",
-          error: errorMessage,
-        });
+      return reply.status(500).send({
+        message: "Error resolving verifiableCredential",
+        error: errorMessage,
+      });
     }
   });
 };
