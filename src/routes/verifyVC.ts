@@ -32,7 +32,7 @@ const route: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
     }
 
     // Extract verifiableCredential from request body
-    const { credential } = request.body as VerifiableCredential
+    const { credential } = request.body as VerifiableCredential;
 
     // Validate if verifiableCredential is provided
     if (!credential) {
@@ -42,9 +42,9 @@ const route: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
     try {
       // Resolve the verifiableCredential document using Veramo agent
       fastify.log.warn(
-        `Credential received for verification: ${JSON.stringify(credential[0])}`
+        `Credential received for verification: ${JSON.stringify(credential)}`
       );
-      const result = await agent.verifyCredential({ credential: credential[0] });
+      const result = await agent.verifyCredential({ credential: credential });
 
       // Return the verifiableCredential document if found
       if (result) {
@@ -55,7 +55,7 @@ const route: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
           .status(404)
           .send({ error: "verifiableCredential Document not found" });
       }
-    } catch (error) {
+    } catch (error) { 
       // Handle errors during verifiableCredential resolution
       const errorMessage =
         error instanceof Error ? error.message : String(error);
