@@ -23,4 +23,4 @@ EXPOSE 5000
 
 # Use the entrypoint script that will generate the VERAMO_SECRET_KEY
 ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]
