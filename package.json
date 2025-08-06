@@ -116,6 +116,7 @@
     "toad-cache": "^3.7.0",
     "typeorm": "^0.3.21",
     "util-deprecate": "^1.0.2",
+    "uuid": "^11.1.0",
     "walker": "^1.0.8",
     "web-did-resolver": "^2.0.30",
     "wrappy": "^1.0.2",

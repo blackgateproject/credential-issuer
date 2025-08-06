@@ -70,3 +70,4 @@ dist
 *.sqlite.journal
 
 /data/
+.github
